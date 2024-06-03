@@ -1,0 +1,187 @@
+@font-face {
+    font-family: Digital;
+    src: url("fonts/digital-7-mono.woff") format("woff");
+}
+
+@font-face {
+    font-family: SuperBrigade;
+    src: url("fonts/SuperBrigade.woff") format("woff");
+}
+
+.container {
+    margin: auto;
+    max-width: 640px;
+}
+
+/* remove focus from indicator */
+.sapSuiteUiCommonsStatusIndicator {
+    outline: none !important;
+}
+
+.title {
+    font-family: "SuperBrigade", "72", "72full", Arial, Helvetica, sans-serif;
+    font-size: 1.125rem !important;
+}
+
+/* Fonts */
+.sapMLabel,
+.sapUiForm .sapUiFormTitle,
+.sapMLabel.sapMObjStatusInverted .sapMObjStatusText,
+.sapMLabel.sapMObjStatusNone .sapMObjStatusText,
+.sapSuiteUiCommonsStatusIndicatorLabel {
+    font-family: "Digital", "72", "72full", Arial, Helvetica, sans-serif !important;
+    font-weight: bold;
+    font-size: 1.125rem;
+    color: #8396a8;
+}
+
+.sapMText,
+.sapMObjStatusInverted .sapMObjStatusText {
+    font-family: "Digital", "72", "72full", Arial, Helvetica, sans-serif;
+    font-weight: bolder;
+    font-size: 1.75rem;
+}
+
+.sapMLabel.sapMObjStatusInverted .sapMObjStatusText {
+    padding: 0rem 0.25rem;
+    color: black;
+}
+
+
+.sapUiIcon {
+    font-size: 2.125rem;
+    line-height: 2.125rem;
+}
+
+/* Fieldset */
+.fieldset,
+.sapUiSimpleForm {
+    border: 1px solid #8396a8;
+    border-radius: 0.5rem;
+    padding: 0.5rem 0.5rem;
+    justify-self: center;
+}
+
+.fieldset .sapMSwtCont,
+.fieldset .sapMLabel,
+.fieldset .sapMText,
+.fieldset .sapMObjStatusText {
+    justify-self: center;
+}
+
+/* flags */
+.fieldset .sapMText,
+.fieldset .sapMImg {
+    margin-top: 0.25rem;
+}
+
+/* Form */
+.sapUiForm {
+    padding-top: 1.25rem;
+}
+
+.sapUiForm .sapUiFormTitle {
+    position: absolute;
+    top: -0.125rem;
+    text-align: center;
+    margin: 0 50% !important;
+    width: auto !important;
+    transform: translate(-50%, 0) !important;
+    height: 1rem !important;
+    line-height: 1.25rem !important;
+    border: 0;
+    background-color: #12171c;
+    color: #8396a8 !important;
+}
+
+.sapUiForm .sapMLabel {
+    line-height: 2rem;
+}
+
+.sapUiFormResGrid>div {
+    padding: 0.25rem 0.25rem !important;
+}
+
+/* Fuel */
+.gas .sapSuiteUiCommonsStatusIndicatorLabel {
+    font-size: 1rem;
+}
+
+/* Tires */
+.tires .sapMObjStatus {
+    display: grid;
+}
+
+.tires .sapUiRespGridOverflowHidden .sapUiRespGridBreak {
+    overflow: visible !important;
+}
+
+.tires .sapMObjStatusText {
+    line-height: 2rem;
+    padding: 0.25rem 0.25rem 0;
+    text-align: center;
+}
+
+.tiresGrid {
+    background-image: url("../mime/wheelset.svg");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 45%;
+}
+
+/* Speed Box */
+:root {
+    --rotation: 45deg;
+}
+
+.orientation {
+    /*transform: rotate(attr(data-angle angle)deg);*/
+    transform: rotate(var(--rotation));
+}
+
+/* Gear Box */
+.currentGear {
+    padding: 0 2.5rem 0 1rem;
+    padding: 0 2rem;
+    font-size: 5rem;
+    color: lightgreen;
+}
+
+.suggestedGear {
+    position: absolute;
+    top: 2.25rem;
+    right: 1.6rem;
+    padding: 0 0.5rem;
+    font-size: 1.75rem;
+    border-radius: 0.25rem;
+    background-color: red;
+    color: black;
+    text-wrap: nowrap;
+}
+
+.rpm {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+}
+
+.brake {
+    position: absolute;
+    top: 22px;
+    left: 0;
+    bottom: 0;
+}
+
+.throttle {
+    position: absolute;
+    top: 22px;
+    right: 0;
+    bottom: 0;
+}
+
+/* Timing */
+.timing {
+    padding: 0.25rem 0;
+    height: 100%;
+}

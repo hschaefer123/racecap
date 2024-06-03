@@ -1,0 +1,79 @@
+@protocol: 'none'
+service OTLPService {
+    type SIPGT7 {
+        session_ID                     : UUID;
+        packetId                       : Integer;
+        car_ID                         : Integer;
+        position_x                     : Double;
+        position_y                     : Double;
+        position_z                     : Double;
+        velocity_x                     : Double;
+        velocity_y                     : Double;
+        velocity_z                     : Double;
+        rotation_pitch                 : Double;
+        rotation_yaw                   : Double;
+        rotation_roll                  : Double;
+        relativeOrientationToNorth     : Double;
+        angularVelocity_x              : Double;
+        angularVelocity_y              : Double;
+        angularVelocity_z              : Double;
+        bodyHeight                     : Double;
+        engineRPM                      : Integer;
+        gasLevel                       : Integer;
+        gasCapacity                    : Integer;
+        metersPerSecond                : Double;
+        distance                       : Double;
+        turboBoost                     : Integer;
+        oilPressure                    : Double;
+        waterTemperature               : Integer;
+        oilTemperature                 : Integer;
+        lapCount                       : Integer;
+        lapsInRace                     : Integer;
+        currentLapTime                 : Integer;
+        currentLapTime2                : Integer;
+        bestLapTime                    : Integer;
+        lastLapTime                    : Integer;
+        timeOfDayProgression           : Integer;
+        preRaceStartPositionOrQualiPos : Integer;
+        numCarsAtPreRace               : Integer;
+        minAlertRPM                    : Integer;
+        maxAlertRPM                    : Integer;
+        calculatedMaxSpeed             : Integer;
+        flags                          : Integer;
+        currentGear                    : Integer;
+        suggestedGear                  : Integer;
+        throttle                       : Integer;
+        brake                          : Integer;
+        roadPlane_x                    : Double;
+        roadPlane_y                    : Double;
+        roadPlane_z                    : Double;
+        roadPlaneDistance              : Double;
+        tireRadius_fl                  : Double;
+        tireRadius_fr                  : Double;
+        tireRadius_rl                  : Double;
+        tireRadius_rr                  : Double;
+        tireSuspensionHeight_fl        : Double;
+        tireSuspensionHeight_fr        : Double;
+        tireSuspensionHeight_rl        : Double;
+        tireSuspensionHeight_rr        : Double;
+        tireSurfaceTemperature_fl      : Double;
+        tireSurfaceTemperature_fr      : Double;
+        tireSurfaceTemperature_rl      : Double;
+        tireSurfaceTemperature_rr      : Double;
+        wheelRevPerSecond_fl           : Double;
+        wheelRevPerSecond_fr           : Double;
+        wheelRevPerSecond_rl           : Double;
+        wheelRevPerSecond_rr           : Double;
+        clutchPedal                    : Integer;
+        clutchEngagement               : Integer;
+        rpmFromClutchToGearbox         : Integer;
+        transmissionTopSpeed           : Double;
+        carCode                        : Integer;
+    };
+
+    event packet : SIPGT7;
+
+    event recording {
+        recording : Boolean;
+    };
+}

@@ -1,0 +1,11 @@
+{ 
+  "name": "GT7 Race Dash", 
+  "short_name": "GT7 Race Dash", 
+  "start_url": "http://192.168.178.72:4004/racedash/index.html", 
+  "display": "standalone", 
+  "icons": [{ 
+    "src": "images/logo.png", 
+    "sizes": "512x512", 
+    "type": "image/png" 
+  }] 
+}

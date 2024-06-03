@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Race Analysis</title>
+    <style>
+        html, body, body > div, #container, #container-uiarea {
+            height: 100%;
+        }
+    </style>
+    <script
+        id="sap-ui-bootstrap"
+        src="https://ui5.sap.com/1.120.8/resources/sap-ui-core.js"
+        data-sap-ui-theme="sap_horizon_dark"
+        data-sap-ui-resourceroots='{
+            "raceanalysis": "./",
+            "ui5.d3": "./ext/cust-control/"
+        }'
+        data-sap-ui-oninit="module:sap/ui/core/ComponentSupport"
+        data-sap-ui-compatVersion="edge"
+        data-sap-ui-async="true"
+        data-sap-ui-frameOptions="trusted"
+        data-sap-ui-xx-viewCache=false
+        data-sap-ui-flexibilityServices='[{"connector": "SessionStorageConnector"}]'        
+    ></script>
+</head>
+<body class="sapUiBody sapUiSizeCompact" id="content">
+    <div
+        data-sap-ui-component
+        data-name="raceanalysis"
+        data-id="container"
+        data-settings='{"id" : "raceanalysis"}'
+        data-handle-validation="true"
+    ></div>
+</body>
+</html>

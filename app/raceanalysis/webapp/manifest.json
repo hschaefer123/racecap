@@ -1,0 +1,185 @@
+{
+  "_version": "1.59.0",
+  "sap.app": {
+    "id": "raceanalysis",
+    "type": "application",
+    "i18n": {
+      "bundleUrl": "i18n/i18n.properties",
+      "supportedLocales": [
+        "en"
+      ],
+      "fallbackLocale": "en"
+    },
+    "applicationVersion": {
+      "version": "0.0.2"
+    },
+    "title": "{{appTitle}}",
+    "description": "{{appDescription}}",
+    "resources": "resources.json",
+    "sourceTemplate": {
+      "id": "@sap/generator-fiori:lrop",
+      "version": "1.12.1",
+      "toolsId": "e4a8b09d-5395-4093-a8cb-787fa431f9cb"
+    },
+    "crossNavigation": {
+      "inbounds": {
+        "intent1": {
+          "signature": {
+            "parameters": {},
+            "additionalParameters": "allowed"
+          },
+          "semanticObject": "RaceAnalysis",
+          "action": "display",
+          "title": "{{appTitle}}",
+          "subTitle": "Post-Race",
+          "info": "Fiori Elements",
+          "icon": "sap-icon://line-charts",
+          "indicatorDataSource": {
+            "dataSource": "mainService",
+            "path": "Projects/$count",
+            "refresh": 480
+          }
+        }
+      }
+    },
+    "dataSources": {
+      "mainService": {
+        "uri": "/odata/v4/gt7/",
+        "type": "OData",
+        "settings": {
+          "annotations": [],
+          "localUri": "localService/metadata.xml",
+          "odataVersion": "4.0"
+        }
+      }
+    }
+  },
+  "sap.ui": {
+    "technology": "UI5",
+    "icons": {
+      "icon": "",
+      "favIcon": "",
+      "phone": "",
+      "phone@2": "",
+      "tablet": "",
+      "tablet@2": ""
+    },
+    "deviceTypes": {
+      "desktop": true,
+      "tablet": true,
+      "phone": true
+    }
+  },
+  "sap.ui5": {
+    "flexEnabled": false,
+    "dependencies": {
+      "minUI5Version": "1.120.0",
+      "libs": {
+        "sap.m": {},
+        "sap.ui.core": {},
+        "sap.ushell": {},
+        "sap.fe.templates": {}
+      }
+    },
+    "contentDensities": {
+      "compact": true,
+      "cozy": true
+    },
+    "models": {
+      "i18n": {
+        "type": "sap.ui.model.resource.ResourceModel",
+        "settings": {
+          "bundleUrl": "i18n/i18n.properties",
+          "supportedLocales": [
+            "en"
+          ],
+          "fallbackLocale": "en"
+        }
+      },
+      "": {
+        "dataSource": "mainService",
+        "preload": true,
+        "settings": {
+          "synchronizationMode": "None",
+          "operationMode": "Server",
+          "autoExpandSelect": true,
+          "earlyRequests": true
+        }
+      },
+      "@i18n": {
+        "type": "sap.ui.model.resource.ResourceModel",
+        "uri": "i18n/i18n.properties"
+      }
+    },
+    "resources": {
+      "css": [
+        {
+          "uri": "css/style.css"
+        }
+      ]
+    },
+    "routing": {
+      "routes": [
+        {
+          "pattern": ":?query:",
+          "name": "SessionsList",
+          "target": "SessionsList"
+        },
+        {
+          "pattern": "Sessions({key}):?query:",
+          "name": "SessionsObjectPage",
+          "target": "SessionsObjectPage"
+        }
+      ],
+      "targets": {
+        "SessionsList": {
+          "type": "Component",
+          "id": "SessionsList",
+          "name": "sap.fe.templates.ListReport",
+          "options": {
+            "settings": {
+              "contextPath": "/Sessions",
+              "variantManagement": "Page",
+              "navigation": {
+                "Sessions": {
+                  "detail": {
+                    "route": "SessionsObjectPage"
+                  }
+                }
+              },
+              "initialLoad": "Enabled"
+            }
+          }
+        },
+        "SessionsObjectPage": {
+          "type": "Component",
+          "id": "SessionsObjectPage",
+          "name": "sap.fe.templates.ObjectPage",
+          "options": {
+            "settings": {
+              "editableHeaderContent": false,
+              "contextPath": "/Sessions",
+              "content": {
+                "body": {
+                  "sections": {
+                    "RaceAnalysis": {
+                      "template": "raceanalysis.ext.fragment.RaceAnalysis",
+                      "title": "Race Analysis",
+                      "type": "XMLFragment"
+                    }
+                  }
+                }
+              },
+              "sectionLayout": "Tabs"
+            }
+          }
+        }
+      },
+      "config": {}
+    }
+  },
+  "sap.fiori": {
+    "registrationIds": [],
+    "archeType": "transactional"
+  }
+}

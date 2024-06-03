@@ -1,0 +1,174 @@
+<mvc:View controllerName="racedash.controller.Dashboard"
+    xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:f="sap.ui.layout.form" 
+    xmlns:grid="sap.ui.layout.cssgrid" xmlns:mvc="sap.ui.core.mvc" 
+    xmlns:si="sap.suite.ui.commons.statusindicator" xmlns:nc="racedash.control">
+    <Page class="container" enableScrolling="false">
+        <customHeader>
+            <Toolbar design="Info" style="Clear">
+                <Image src="{app>/path}/mime/gt7.svg" height="60%"/>
+                <core:Icon size="0.5rem" width="1rem" height="1rem" src="sap-icon://circle-task-2" 
+                    color="{= ${ws>/connected} ? 'green' : 'red' }"/>
+                <ToolbarSpacer/>
+                <Title class="title" titleStyle="H4" text="{ws>/sip/carName}"/>
+                <ToolbarSpacer/>
+                <Button type="{= ${ws>/recording} ? 'Negative' : 'Emphasized'}"
+                    visible="{ws>/connected}"
+                    icon="{= ${ws>/recording} ? 'sap-icon://stop' : 'sap-icon://record'}" 
+                    text="{= ${ws>/recording} ? 'Stop' : 'Record'}" 
+                    press=".handleRecord"/>
+            </Toolbar>
+        </customHeader>
+        <HBox class="sapUiTinyMarginBeginEnd" renderType="Bare">                  
+            <VBox width="35%" renderType="Bare" justifyContent="SpaceBetween">
+                <grid:CSSGrid class="fieldset" gridTemplateColumns="repeat(3, 1fr)">
+                    <Label text="ASM" textAlign="Center"/>
+                    <Label text="TCS" textAlign="Center"/> 
+                    <Label text="Rev Lim" textAlign="Center"/>  
+                    <Image width="100%" height="1.5rem"
+                        src="{app>/path}/mime/flags/{ path: 'ws>/sip/flags', formatter: '.formatter.asmFlag' }"/> 
+                    <Image width="100%" height="1.5rem"
+                        src="{app>/path}/mime/flags/{ path: 'ws>/sip/flags', formatter: '.formatter.tcsFlag' }"/> 
+                    <Image width="100%" height="1.5rem"
+                        src="{app>/path}/mime/flags/{ path: 'ws>/sip/flags', formatter: '.formatter.revlimFlag' }"/> 
+                </grid:CSSGrid>
+                <HBox class="sapUiTinyMarginTopBottom" renderType="Bare">        
+                    <VBox class="fuel fieldset sapUiTinyMarginEnd" renderType="Bare" width="30%"
+                        alignItems="Center">
+                        <core:Icon class="sapUiTinyMarginBottom" src="sap-icon://mileage" size="1.25rem"/>  
+                        <si:StatusIndicator class="gas" width="26px" height="54px" 
+                            viewBox="-1 -1 26 54" 
+                            showLabel="true" labelPosition="Bottom"
+                            value="{ parts: ['ws>/sip/gasLevel', 'ws>/sip/gasCapacity'], formatter: '.formatter.rpmPercent' }">
+                            <si:ShapeGroup>
+                                <si:Rectangle x="0" y="0" width="24" height="54" strokeWidth="1" 
+                                    fillingType="Linear" fillColor="red"/>
+                            </si:ShapeGroup>
+                            <si:propertyThresholds>                        
+                                <si:PropertyThreshold fillColor="Error" toValue="10"/>
+                                <si:PropertyThreshold fillColor="Critical" toValue="30"/>
+                                <si:PropertyThreshold fillColor="Good" toValue="100"/>
+                            </si:propertyThresholds>
+                        </si:StatusIndicator>                      
+                    </VBox>   
+                    <f:SimpleForm title="Tires" class="tires sapUiNoContentPadding"
+                        backgroundDesign="Transparent">
+                        <grid:CSSGrid class="tiresGrid"	gridTemplateColumns="repeat(2, 1fr)"
+                            gridGap="0.75rem 1.2rem">
+                            <ObjectStatus text="{ path: 'ws>/sip/tireSurfaceTemperature/FrontLeft', formatter: '.formatter.int' }°"
+                                state="Error" inverted="true"/>
+                            <ObjectStatus text="{ path: 'ws>/sip/tireSurfaceTemperature/FrontRight', formatter: '.formatter.int' }°"
+                                state="Warning" inverted="true"/>
+                            <ObjectStatus text="{ path: 'ws>/sip/tireSurfaceTemperature/RearLeft', formatter: '.formatter.int' }°"
+                                state="None" inverted="true"/>
+                            <ObjectStatus text="{ path: 'ws>/sip/tireSurfaceTemperature/RearRight', formatter: '.formatter.int' }°"
+                                state="Success" inverted="true"/>
+                        </grid:CSSGrid>
+                    </f:SimpleForm>
+                </HBox>  
+                <grid:CSSGrid class="fieldset" gridTemplateColumns="repeat(2, 1fr)">
+                    <Label text="Water"/>
+                    <Label text="Oil"/> 
+                    <Text text="{ws>/sip/waterTemperature}°"/>
+                    <Text text="{ws>/sip/oilTemperature}°"/><!--<Text text="{ws>/sip/oilPressure} bar"/>-->
+                </grid:CSSGrid>                                
+            </VBox>                
+            <VBox class="sapUiTinyMarginBeginEnd" width="30%" renderType="Bare" 
+                justifyContent="Center" alignItems="Center"> 
+                <grid:CSSGrid class="fieldset" gridTemplateColumns="repeat(2, 1fr)">
+                    <Label text="Km/h"/>
+                    <Label text="RPM"/>
+                    <Text text="{ path: 'ws>/sip/metersPerSecond', formatter: '.formatter.kmh' }"/>                   
+                    <Text text="{ path: 'ws>/sip/engineRPM', formatter: '.formatter.int'}"/>
+                    <!--<Text text="{ws>/sip/relativeOrientationToNorth}"/>-->
+                    <!--
+                    <nc:IconAngel class="orientation" src="sap-icon://arrow-top" size="1.5rem"
+                        angel="{ws>/sip/relativeOrientationToNorth}"/>
+                    -->
+                    <!--
+                    <core:Icon class="orientation" src="sap-icon://arrow-top" size="1.5rem">
+                        <core:customData>
+                            <core:CustomData key="angle" 
+                                value="{ path: 'ws>/sip/relativeOrientationToNorth', formatter: '.formatter.angleToDegress' }" 
+                                writeToDom="true" />
+                        </core:customData>
+                    </core:Icon>
+                    -->
+                </grid:CSSGrid>                   
+                <VBox class="fieldset sapUiTinyMarginTopBottom sapUiNoContentPadding" renderType="Bare" 
+                    width="100%" height="100%" justifyContent="Center" alignItems="Center">
+                    <Text class="currentGear"
+                        text="{ path: 'ws>/sip/currentGear', formatter: '.formatter.gear' }"/>
+                    <Text class="suggestedGear" text="{ws>/sip/suggestedGear}"
+                        visible="{= ${ws>/sip/suggestedGear} !== 15}"/>
+                    <si:StatusIndicator class="rpm" width="166px" height="16px"
+                        value="{ parts: ['ws>/sip/engineRPM', 'ws>/sip/maxAlertRPM'], formatter: '.formatter.rpmPercent' }">
+                        <si:ShapeGroup>
+                            <si:Rectangle x="0" y="0" width="166" height="10" strokeWidth="0"
+                                rx="4" ry="4" fillingType="Linear" fillingDirection="Right"/>
+                        </si:ShapeGroup>
+                        <si:propertyThresholds>                        
+                            <si:PropertyThreshold fillColor="Neutral" toValue="70"/>
+                            <si:PropertyThreshold fillColor="Critical" toValue="90"/>
+                            <!-- Binding only initially supported! not dynamically
+                                <si:PropertyThreshold fillColor="Critical" toValue="{ parts: ['ws>/sip/minAlertRPM', 'ws>/sip/maxAlertRPM'], formatter: '.formatter.rpmPercentInt' }"/>
+                            -->
+                            <si:PropertyThreshold fillColor="Error" toValue="100"/>
+                        </si:propertyThresholds>
+                    </si:StatusIndicator>             
+                    <si:StatusIndicator class="brake" width="10px" height="116px"
+                        value="{ path: 'ws>/sip/brake', formatter: '.formatter.percent' }">
+                        <si:ShapeGroup>
+                            <si:Rectangle x="0" y="0" width="10" height="116" strokeWidth="0" 
+                                rx="4" ry="4" fillingType="Linear" fillColor="red"/>
+                        </si:ShapeGroup>
+                    </si:StatusIndicator>
+                    <si:StatusIndicator class="throttle" width="10px" height="116px"
+                        value="{ path: 'ws>/sip/throttle', formatter: '.formatter.percent' }">
+                        <si:ShapeGroup>
+                            <si:Rectangle x="0" y="0" width="10" height="116" strokeWidth="0" 
+                                rx="4" ry="4" fillingType="Linear" fillColor="green"/>
+                        </si:ShapeGroup>
+                    </si:StatusIndicator>     
+                </VBox>                 
+                <grid:CSSGrid class="fieldset" gridTemplateColumns="repeat(1, 1fr)">
+                    <Label text="KM"/>
+                    <Text text="{ path: 'ws>/sip/distance', formatter: '.formatter.km' }"/>
+                </grid:CSSGrid>                   
+            </VBox>            
+            <VBox width="35%" renderType="Bare">
+                <grid:CSSGrid class="fieldset" gridTemplateColumns="repeat(2, 1fr)">
+                    <Label text="Position"/>
+                    <ObjectStatus class="sapMLabel"
+                        text="{= ${ws>/sip/lapCount} === ${ws>/sip/lapsInRace} ? 'Final Lap' : 'Lap' }" 
+                        inverted="{= ${ws>/sip/lapCount} === ${ws>/sip/lapsInRace} }" 
+                        state="{= ${ws>/sip/lapCount} === ${ws>/sip/lapsInRace} ? 'Error' : 'None' }"/>
+                    <Text text="{ws>/sip/preRaceStartPositionOrQualiPos} / {ws>/sip/numCarsAtPreRace}"/>
+                    <Text text="{ws>/sip/lapCount} / {ws>/sip/lapsInRace}"/>
+                </grid:CSSGrid>
+                <f:SimpleForm class="timing sapUiTinyMarginTop"
+                    title="Lap Time" backgroundDesign="Transparent" layout="ResponsiveGridLayout"
+                    singleContainerFullSize="true" labelSpanM="4" breakpointM="100">
+                    <Label text="Curr" textAlign="Right"/>
+                    <Text text="{ path: 'ws>/sip/currentLapTime2', formatter: '.formatter.time' }"
+                        textAlign="Right" wrapping="false"/>                        
+                    <Label text="Last" textAlign="Right"/>
+                    <Text text="{ path: 'ws>/sip/lastLapTime', formatter: '.formatter.time' }"
+                        textAlign="Right" wrapping="false"/>
+                    <Label text="Best" textAlign="Right"/>
+                    <Text text="{ path: 'ws>/sip/bestLapTime', formatter: '.formatter.time' }"
+                        textAlign="Right" wrapping="false"/>
+                    <Label/>
+                </f:SimpleForm>
+            </VBox>                    
+        </HBox>
+        <!--
+        <footer>
+            <Toolbar design="Transparent" style="Clear">
+                <ToolbarSpacer/>
+                <Image src="{app>/path}/mime/fanatec-white.svg" height="14px"/>
+                <ToolbarSpacer/>
+            </Toolbar>
+        </footer>
+        -->
+    </Page>
+</mvc:View>

@@ -1,0 +1,145 @@
+<mvc:View controllerName="gt7info.ext.main.Main"
+    xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:f="sap.f" xmlns:grid="sap.ui.layout.cssgrid"
+    xmlns:mvc="sap.ui.core.mvc" xmlns:macros="sap.fe.macros">
+    <f:DynamicPage id="dynamicPageId" class="sapUiNoContentPadding"
+        headerExpanded="true" showFooter="true">
+        <f:title>
+			<f:DynamicPageTitle id="dynamicPageTitle">
+				<f:heading>
+                    <VBox renderType="Bare">
+                        <Title text="{i18n&gt;MainTitle}"/>
+                        <Link text="{info>/used/date}" href="https://ddm999.github.io/gt7info/"
+                            target="_blank"/>
+                    </VBox>
+				</f:heading>
+			</f:DynamicPageTitle>
+		</f:title>
+        <f:content>
+            <IconTabBar expandable="false">
+                <items>                    
+                    <IconTabFilter text="Used Car Dealership ({= ${info>/used/cars}.length})">
+                        <f:GridList items="{info>/used/cars}">
+                            <f:customLayout>
+				                <grid:GridBoxLayout boxMinWidth="16rem"/>
+			                </f:customLayout>
+                            <f:GridListItem>
+                                <Text class="uiSoldout" text="SOLD OUT" textAlign="Center"
+                                    visible="{= ${info>state} === 'soldout'}"/>
+                                <VBox renderType="Bare" class="sapUiSmallMargin">
+                                    <layoutData>
+                                        <FlexItemData growFactor="1" shrinkFactor="0" /> <!-- Don't shrink below minimum size. Fill space if available. -->
+                                    </layoutData>
+                                    <HBox renderType="Bare" justifyContent="SpaceBetween">
+                                        <Label text="{info>manufacturer}"/>                                        
+                                        <ObjectStatus text="NEW"
+                                            state="Information" visible="{info>new}"/>
+                                    </HBox>                                
+                                    <Title class="sapUiTinyMarginTop" wrapping="true"
+                                        text="{info>name}"/>
+                                    <HBox renderType="Bare" justifyContent="SpaceBetween" alignItems="End">                                         
+                                        <HBox renderType="Bare"> 
+                                            <Button icon="sap-icon://course-book" type="Transparent"
+                                                visible="{= ${info>rewardcar} !== null}">
+                                                <customData>
+                                                    <BadgeCustomData key="badge" value="{info>rewardcar/name}"/>
+                                                </customData>
+                                            </Button>
+                                            <Button icon="sap-icon://repost" type="Transparent"
+                                                tooltip="{info>engineswap/manufacturer} {info>engineswap/name} ({info>engineswap/enginename})"
+                                                visible="{= ${info>engineswap} !== null}"/>
+                                        </HBox>
+                                        <VBox renderType="Bare" alignItems="End"> 
+                                            <NumericContent value="{ path: 'info>credits', type: 'sap.ui.model.odata.type.Decimal' }" 
+                                                scale="Cr."/>
+                                            <ObjectStatus text="{ path: 'info>estimatedays', formatter: '.estimateText'}"
+                                                state="{= ${info>estimatedays} > 1 ? 'Warning' : 'Error'}"
+                                                visible="{= ${info>estimatedays} > 0 &amp;&amp; ${info>estimatedays} &lt; 9}"/>
+                                        </VBox>
+                                    </HBox>                                    
+                                </VBox>                                
+                            </f:GridListItem>
+                        </f:GridList>
+                    </IconTabFilter>
+                    <IconTabFilter text="HAGERTY Collection ({= ${info>/legend/cars}.length})">
+                        <f:GridList items="{info>/legend/cars}">
+                            <f:customLayout>
+				                <grid:GridBoxLayout boxMinWidth="16rem"/>
+			                </f:customLayout>
+                            <f:GridListItem>           
+                                <Text class="uiSoldout" text="SOLD OUT" textAlign="Center"
+                                    visible="{= ${info>state} === 'soldout'}"/>                     
+                                <VBox renderType="Bare" class="sapUiSmallMargin">                                    
+                                    <layoutData>
+                                        <FlexItemData growFactor="1" shrinkFactor="0" /> <!-- Don't shrink below minimum size. Fill space if available. -->
+                                    </layoutData>
+                                    <Image class="hagerty" width="32px" height="32px"
+                                        src="gt7info/mime/legend-hagerty-icon.svg"/>
+                                    <HBox renderType="Bare" justifyContent="SpaceBetween">
+                                        <Label text="{info>manufacturer}"/>  
+                                        <ObjectStatus text="NEW"
+                                            state="Information" visible="{info>new}"/>
+                                    </HBox>                                    
+                                    <Title class="sapUiTinyMarginTop" wrapping="true"
+                                        text="{info>name}"/>
+                                    <HBox renderType="Bare" justifyContent="SpaceBetween" alignItems="End"> 
+                                        <HBox renderType="Bare"> 
+                                            <Button icon="sap-icon://course-book" type="Transparent"
+                                                visible="{= ${info>rewardcar} !== null}">
+                                                <customData>
+                                                    <BadgeCustomData key="badge" value="{info>rewardcar/name}"/>
+                                                </customData>
+                                            </Button>
+                                            <Button icon="sap-icon://repost" type="Transparent"
+                                                tooltip="{info>engineswap/manufacturer} {info>engineswap/name} ({info>engineswap/enginename})"
+                                                visible="{= ${info>engineswap} !== null}"/>
+                                        </HBox>
+                                        <VBox renderType="Bare" alignItems="End"> 
+                                            <NumericContent value="{ path: 'info>credits', type: 'sap.ui.model.odata.type.Decimal' }" 
+                                                scale="Cr."/>
+                                            <ObjectStatus text="{ path: 'info>estimatedays', formatter: '.estimateText'}"
+                                                state="{= ${info>estimatedays} > 1 ? 'Warning' : 'Error'}"
+                                                visible="{= ${info>estimatedays} > 0 &amp;&amp; ${info>estimatedays} &lt; 9}"/>
+                                        </VBox>
+                                    </HBox>
+                                </VBox>
+                            </f:GridListItem>
+                        </f:GridList>
+                    </IconTabFilter>
+                    <IconTabFilter text="Cars ({/Cars/$count})">
+                        <!--
+                        <macros:Table id="CarTable" header="Cars"
+                            metaPath="@com.sap.vocabularies.UI.v1.LineItem#CarTable" 
+                            contextPath="/Cars"/>
+                        -->
+                        <f:GridList growing="true" growingThreshold="600"
+                            items="{
+                                path: '/Cars',
+                                sorter: [
+                                    { path: 'maker/country/name', descending: false, group: true },
+                                    { path: 'maker/name' },
+                                    { path: 'name' }
+                                ],
+                                parameters : {						
+                                    $select : 'maker/country/name',
+                                    $count: true
+                                }
+                            }">
+                            <f:customLayout>
+				                <grid:GridBoxLayout boxMinWidth="14rem"/>
+			                </f:customLayout>
+                            <f:GridListItem>                                
+                                <VBox renderType="Bare" class="sapUiSmallMargin">                                    
+                                    <layoutData>
+                                        <FlexItemData growFactor="1" shrinkFactor="0" /> <!-- Don't shrink below minimum size. Fill space if available. -->
+                                    </layoutData>
+                                    <Label text="{maker/name}"/>
+                                    <Title class="sapUiTinyMarginTop" text="{name}" wrapping="true"/>                                    
+                                </VBox>
+                            </f:GridListItem>
+                        </f:GridList>
+                    </IconTabFilter>                    
+                </items>
+            </IconTabBar>
+        </f:content>
+    </f:DynamicPage>
+</mvc:View>

@@ -1,0 +1,32 @@
+{
+    "compilerOptions": {
+        "target": "es6",
+        "module": "commonjs",
+        "outDir": "./gen/srv/srv",
+        "rootDirs": [
+            "./srv",
+            "./@cds-models"
+        ],
+        "baseUrl": "./",
+        "moduleResolution": "node",
+        "skipLibCheck": true,
+        "preserveConstEnums": true,
+        "sourceMap": false,
+        "allowJs": true,
+        "strict": true,
+        "strictNullChecks": false,
+        "strictPropertyInitialization": false,
+        "esModuleInterop": true,
+        "paths": {
+            "#cds-models/*": [
+                "./@cds-models/*/index.ts"
+            ]
+        }
+    },
+    "include": [
+        "./srv/**/*",
+        "srv/lib/SqliteExporter.ts",
+        "srv/lib/FioriExporter.ts",
+        "srv/lib/utils"
+    ]
+}

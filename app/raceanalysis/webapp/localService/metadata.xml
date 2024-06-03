@@ -1,0 +1,436 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="4.0" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+    <edmx:Reference Uri="https://sap.github.io/odata-vocabularies/vocabularies/Common.xml">
+        <edmx:Include Alias="Common" Namespace="com.sap.vocabularies.Common.v1"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Core.V1.xml">
+        <edmx:Include Alias="Core" Namespace="Org.OData.Core.V1"/>
+    </edmx:Reference>
+    <edmx:DataServices>
+        <Schema Namespace="GT7Service" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+            <EntityContainer Name="EntityContainer">
+                <EntitySet Name="Sessions" EntityType="GT7Service.Sessions">
+                    <NavigationPropertyBinding Path="car" Target="Cars"/>
+                    <NavigationPropertyBinding Path="Packets" Target="SimulatorInterfacePackets"/>
+                </EntitySet>
+                <EntitySet Name="SimulatorInterfacePackets" EntityType="GT7Service.SimulatorInterfacePackets">
+                    <NavigationPropertyBinding Path="session" Target="Sessions"/>
+                    <NavigationPropertyBinding Path="car" Target="Cars"/>
+                </EntitySet>
+                <EntitySet Name="Cars" EntityType="GT7Service.Cars">
+                    <NavigationPropertyBinding Path="maker" Target="Makers"/>
+                </EntitySet>
+                <EntitySet Name="CarGroups" EntityType="GT7Service.CarGroups"/>
+                <EntitySet Name="Countries" EntityType="GT7Service.Countries"/>
+                <EntitySet Name="CourseBases" EntityType="GT7Service.CourseBases"/>
+                <EntitySet Name="Courses" EntityType="GT7Service.Courses">
+                    <NavigationPropertyBinding Path="base" Target="CourseBases"/>
+                    <NavigationPropertyBinding Path="country" Target="Countries"/>
+                </EntitySet>
+                <EntitySet Name="EngineSwaps" EntityType="GT7Service.EngineSwaps"/>
+                <EntitySet Name="LotteryCars" EntityType="GT7Service.LotteryCars"/>
+                <EntitySet Name="Makers" EntityType="GT7Service.Makers">
+                    <NavigationPropertyBinding Path="country" Target="Countries"/>
+                </EntitySet>
+                <EntitySet Name="StockPerformances" EntityType="GT7Service.StockPerformances"/>
+                <EntitySet Name="Trophies" EntityType="GT7Service.Trophies">
+                    <NavigationPropertyBinding Path="car" Target="Cars"/>
+                </EntitySet>
+            </EntityContainer>
+            <EntityType Name="Sessions">
+                <Key>
+                    <PropertyRef Name="ID"/>
+                </Key>
+                <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+                <Property Name="createdAt" Type="Edm.DateTimeOffset" Precision="7"/>
+                <NavigationProperty Name="car" Type="GT7Service.Cars">
+                    <ReferentialConstraint Property="car_ID" ReferencedProperty="ID"/>
+                </NavigationProperty>
+                <Property Name="car_ID" Type="Edm.Int32"/>
+                <NavigationProperty Name="Packets" Type="Collection(GT7Service.SimulatorInterfacePackets)" Partner="session">
+                    <OnDelete Action="Cascade"/>
+                </NavigationProperty>
+            </EntityType>
+            <EntityType Name="SimulatorInterfacePackets">
+                <Key>
+                    <PropertyRef Name="session_ID"/>
+                    <PropertyRef Name="packetId"/>
+                </Key>
+                <NavigationProperty Name="session" Type="GT7Service.Sessions" Partner="Packets">
+                    <ReferentialConstraint Property="session_ID" ReferencedProperty="ID"/>
+                </NavigationProperty>
+                <Property Name="session_ID" Type="Edm.Guid" Nullable="false"/>
+                <Property Name="packetId" Type="Edm.Int32" Nullable="false"/>
+                <NavigationProperty Name="car" Type="GT7Service.Cars">
+                    <ReferentialConstraint Property="car_ID" ReferencedProperty="ID"/>
+                </NavigationProperty>
+                <Property Name="car_ID" Type="Edm.Int32"/>
+                <Property Name="position_x" Type="Edm.Decimal" Scale="variable"/>
+                <Property Name="position_y" Type="Edm.Decimal" Scale="variable"/>
+                <Property Name="position_z" Type="Edm.Decimal" Scale="variable"/>
+                <Property Name="velocity_x" Type="Edm.Decimal" Scale="variable"/>
+                <Property Name="velocity_y" Type="Edm.Decimal" Scale="variable"/>
+                <Property Name="velocity_z" Type="Edm.Decimal" Scale="variable"/>
+                <Property Name="rotation_pitch" Type="Edm.Decimal" Scale="variable"/>
+                <Property Name="rotation_yaw" Type="Edm.Decimal" Scale="variable"/>
+                <Property Name="rotation_roll" Type="Edm.Decimal" Scale="variable"/>
+                <Property Name="relativeOrientationToNorth" Type="Edm.Decimal" Scale="variable"/>
+                <Property Name="angularVelocity_x" Type="Edm.Decimal" Scale="variable"/>
+                <Property Name="angularVelocity_y" Type="Edm.Decimal" Scale="variable"/>
+                <Property Name="angularVelocity_z" Type="Edm.Decimal" Scale="variable"/>
+                <Property Name="bodyHeight" Type="Edm.Decimal" Scale="variable"/>
+                <Property Name="engineRPM" Type="Edm.Decimal" Scale="variable"/>
+                <Property Name="gasLevel" Type="Edm.Decimal" Scale="variable"/>
+                <Property Name="gasCapacity" Type="Edm.Decimal" Scale="variable"/>
+                <Property Name="metersPerSecond" Type="Edm.Decimal" Scale="variable"/>
+                <Property Name="turboBoost" Type="Edm.Decimal" Scale="variable"/>
+                <Property Name="oilPressure" Type="Edm.Decimal" Scale="variable"/>
+                <Property Name="waterTemperature" Type="Edm.Decimal" Scale="variable"/>
+                <Property Name="oilTemperature" Type="Edm.Decimal" Scale="variable"/>
+                <Property Name="lapCount" Type="Edm.Int16"/>
+                <Property Name="lapsInRace" Type="Edm.Int16"/>
+                <Property Name="bestLapTime" Type="Edm.Int32"/>
+                <Property Name="lastLapTime" Type="Edm.Int32"/>
+                <Property Name="timeOfDayProgression" Type="Edm.Int32"/>
+                <Property Name="preRaceStartPositionOrQualiPos" Type="Edm.Int16"/>
+                <Property Name="numCarsAtPreRace" Type="Edm.Int16"/>
+                <Property Name="minAlertRPM" Type="Edm.Int16"/>
+                <Property Name="maxAlertRPM" Type="Edm.Int16"/>
+                <Property Name="calculatedMaxSpeed" Type="Edm.Int16"/>
+                <Property Name="flags" Type="Edm.Int16"/>
+                <Property Name="currentGear" Type="Edm.Int16"/>
+                <Property Name="suggestedGear" Type="Edm.Int16"/>
+                <Property Name="throttle" Type="Edm.Int16"/>
+                <Property Name="brake" Type="Edm.Int16"/>
+                <Property Name="roadPlane_x" Type="Edm.Decimal" Scale="variable"/>
+                <Property Name="roadPlane_y" Type="Edm.Decimal" Scale="variable"/>
+                <Property Name="roadPlane_z" Type="Edm.Decimal" Scale="variable"/>
+                <Property Name="roadPlaneDistance" Type="Edm.Decimal" Scale="variable"/>
+                <Property Name="tireRadius_fl" Type="Edm.Decimal" Scale="variable"/>
+                <Property Name="tireRadius_fr" Type="Edm.Decimal" Scale="variable"/>
+                <Property Name="tireRadius_rl" Type="Edm.Decimal" Scale="variable"/>
+                <Property Name="tireRadius_rr" Type="Edm.Decimal" Scale="variable"/>
+                <Property Name="tireSuspensionHeight_fl" Type="Edm.Decimal" Scale="variable"/>
+                <Property Name="tireSuspensionHeight_fr" Type="Edm.Decimal" Scale="variable"/>
+                <Property Name="tireSuspensionHeight_rl" Type="Edm.Decimal" Scale="variable"/>
+                <Property Name="tireSuspensionHeight_rr" Type="Edm.Decimal" Scale="variable"/>
+                <Property Name="tireSurfaceTemperature_fl" Type="Edm.Decimal" Scale="variable"/>
+                <Property Name="tireSurfaceTemperature_fr" Type="Edm.Decimal" Scale="variable"/>
+                <Property Name="tireSurfaceTemperature_rl" Type="Edm.Decimal" Scale="variable"/>
+                <Property Name="tireSurfaceTemperature_rr" Type="Edm.Decimal" Scale="variable"/>
+                <Property Name="wheelRevPerSecond_fl" Type="Edm.Decimal" Scale="variable"/>
+                <Property Name="wheelRevPerSecond_fr" Type="Edm.Decimal" Scale="variable"/>
+                <Property Name="wheelRevPerSecond_rl" Type="Edm.Decimal" Scale="variable"/>
+                <Property Name="wheelRevPerSecond_rr" Type="Edm.Decimal" Scale="variable"/>
+                <Property Name="clutchPedal" Type="Edm.Decimal" Scale="variable"/>
+                <Property Name="clutchEngagement" Type="Edm.Decimal" Scale="variable"/>
+                <Property Name="rpmFromClutchToGearbox" Type="Edm.Decimal" Scale="variable"/>
+                <Property Name="transmissionTopSpeed" Type="Edm.Decimal" Scale="variable"/>
+            </EntityType>
+            <EntityType Name="Cars">
+                <Key>
+                    <PropertyRef Name="ID"/>
+                </Key>
+                <Property Name="ID" Type="Edm.Int32" Nullable="false"/>
+                <Property Name="name" Type="Edm.String" MaxLength="200"/>
+                <NavigationProperty Name="maker" Type="GT7Service.Makers">
+                    <ReferentialConstraint Property="maker_ID" ReferencedProperty="ID"/>
+                </NavigationProperty>
+                <Property Name="maker_ID" Type="Edm.Int32"/>
+            </EntityType>
+            <EntityType Name="CarGroups">
+                <Key>
+                    <PropertyRef Name="ID"/>
+                </Key>
+                <Property Name="ID" Type="Edm.Int32" Nullable="false"/>
+                <Property Name="group" Type="Edm.String" MaxLength="200"/>
+            </EntityType>
+            <EntityType Name="Countries">
+                <Key>
+                    <PropertyRef Name="ID"/>
+                </Key>
+                <Property Name="ID" Type="Edm.Int32" Nullable="false"/>
+                <Property Name="name" Type="Edm.String" MaxLength="200"/>
+                <Property Name="code" Type="Edm.String" MaxLength="3"/>
+            </EntityType>
+            <EntityType Name="CourseBases">
+                <Key>
+                    <PropertyRef Name="ID"/>
+                </Key>
+                <Property Name="ID" Type="Edm.Int32" Nullable="false"/>
+                <Property Name="name" Type="Edm.String" MaxLength="200"/>
+                <Property Name="logoName" Type="Edm.String" MaxLength="200"/>
+            </EntityType>
+            <EntityType Name="Courses">
+                <Key>
+                    <PropertyRef Name="ID"/>
+                </Key>
+                <Property Name="ID" Type="Edm.Int32" Nullable="false"/>
+                <Property Name="name" Type="Edm.String" MaxLength="200"/>
+                <NavigationProperty Name="base" Type="GT7Service.CourseBases">
+                    <ReferentialConstraint Property="base_ID" ReferencedProperty="ID"/>
+                </NavigationProperty>
+                <Property Name="base_ID" Type="Edm.Int32"/>
+                <NavigationProperty Name="country" Type="GT7Service.Countries">
+                    <ReferentialConstraint Property="country_ID" ReferencedProperty="ID"/>
+                </NavigationProperty>
+                <Property Name="country_ID" Type="Edm.Int32"/>
+                <Property Name="category" Type="Edm.String" MaxLength="200"/>
+                <Property Name="length" Type="Edm.Int32"/>
+                <Property Name="longestStraight" Type="Edm.Int32"/>
+                <Property Name="elevationDiff" Type="Edm.Decimal" Scale="variable"/>
+                <Property Name="altitude" Type="Edm.Decimal" Scale="variable"/>
+                <Property Name="minTimeH" Type="Edm.Int32"/>
+                <Property Name="minTimeM" Type="Edm.Int32"/>
+                <Property Name="minTimeS" Type="Edm.Int32"/>
+                <Property Name="maxTimeH" Type="Edm.Int32"/>
+                <Property Name="maxTimeM" Type="Edm.Int32"/>
+                <Property Name="maxTimeS" Type="Edm.Int32"/>
+                <Property Name="layoutNumber" Type="Edm.Int32"/>
+                <Property Name="isReverse" Type="Edm.Boolean"/>
+                <Property Name="pitLaneDelta" Type="Edm.Decimal" Scale="variable"/>
+                <Property Name="isOval" Type="Edm.Boolean"/>
+                <Property Name="numCorners" Type="Edm.Int32"/>
+                <Property Name="noRain" Type="Edm.Boolean"/>
+            </EntityType>
+            <EntityType Name="EngineSwaps">
+                <Property Name="newCar" Type="Edm.Int32"/>
+                <Property Name="originalCar" Type="Edm.Int32"/>
+                <Property Name="engineName" Type="Edm.String" MaxLength="200"/>
+            </EntityType>
+            <EntityType Name="LotteryCars">
+                <Property Name="category" Type="Edm.String" MaxLength="200"/>
+                <Property Name="carID" Type="Edm.Int32"/>
+            </EntityType>
+            <EntityType Name="Makers">
+                <Key>
+                    <PropertyRef Name="ID"/>
+                </Key>
+                <Property Name="ID" Type="Edm.Int32" Nullable="false"/>
+                <Property Name="name" Type="Edm.String" MaxLength="200"/>
+                <NavigationProperty Name="country" Type="GT7Service.Countries">
+                    <ReferentialConstraint Property="country_ID" ReferencedProperty="ID"/>
+                </NavigationProperty>
+                <Property Name="country_ID" Type="Edm.Int32"/>
+            </EntityType>
+            <EntityType Name="StockPerformances">
+                <Key>
+                    <PropertyRef Name="ID"/>
+                    <PropertyRef Name="pp"/>
+                    <PropertyRef Name="tyre"/>
+                </Key>
+                <Property Name="ID" Type="Edm.Int32" Nullable="false"/>
+                <Property Name="pp" Type="Edm.Decimal" Nullable="false" Scale="variable"/>
+                <Property Name="tyre" Type="Edm.String" MaxLength="2" Nullable="false"/>
+            </EntityType>
+            <EntityType Name="Trophies">
+                <Property Name="name" Type="Edm.String" MaxLength="200"/>
+                <NavigationProperty Name="car" Type="GT7Service.Cars">
+                    <ReferentialConstraint Property="car_ID" ReferencedProperty="ID"/>
+                </NavigationProperty>
+                <Property Name="car_ID" Type="Edm.Int32"/>
+            </EntityType>
+            <Annotations Target="GT7Service.Sessions/ID">
+                <Annotation Term="Core.ComputedDefaultValue" Bool="true"/>
+            </Annotations>
+            <Annotations Target="GT7Service.SimulatorInterfacePackets/session">
+                <Annotation Term="Core.Description" String="Id of the session all packets belong to"/>
+            </Annotations>
+            <Annotations Target="GT7Service.SimulatorInterfacePackets/session_ID">
+                <Annotation Term="Core.Description" String="Id of the session all packets belong to"/>
+            </Annotations>
+            <Annotations Target="GT7Service.SimulatorInterfacePackets/packetId">
+                <Annotation Term="Core.Description" String="Id of the packet for proper ordering"/>
+            </Annotations>
+            <Annotations Target="GT7Service.SimulatorInterfacePackets/car">
+                <Annotation Term="Core.Description" String="Internal code that identifies the car"/>
+            </Annotations>
+            <Annotations Target="GT7Service.SimulatorInterfacePackets/car_ID">
+                <Annotation Term="Core.Description" String="Internal code that identifies the car"/>
+            </Annotations>
+            <Annotations Target="GT7Service.SimulatorInterfacePackets/position_x">
+                <Annotation Term="Core.Description" String="Position on the track. Track units are in meters"/>
+            </Annotations>
+            <Annotations Target="GT7Service.SimulatorInterfacePackets/position_y">
+                <Annotation Term="Core.Description" String="Position on the track. Track units are in meters"/>
+            </Annotations>
+            <Annotations Target="GT7Service.SimulatorInterfacePackets/position_z">
+                <Annotation Term="Core.Description" String="Position on the track. Track units are in meters"/>
+            </Annotations>
+            <Annotations Target="GT7Service.SimulatorInterfacePackets/velocity_x">
+                <Annotation Term="Core.Description" String="Velocity in track units (which are meters) for each axis"/>
+            </Annotations>
+            <Annotations Target="GT7Service.SimulatorInterfacePackets/velocity_y">
+                <Annotation Term="Core.Description" String="Velocity in track units (which are meters) for each axis"/>
+            </Annotations>
+            <Annotations Target="GT7Service.SimulatorInterfacePackets/velocity_z">
+                <Annotation Term="Core.Description" String="Velocity in track units (which are meters) for each axis"/>
+            </Annotations>
+            <Annotations Target="GT7Service.SimulatorInterfacePackets/rotation_pitch">
+                <Annotation Term="Core.Description" String="Rotation (Pitch/Yaw/Roll) from -1 to 1"/>
+            </Annotations>
+            <Annotations Target="GT7Service.SimulatorInterfacePackets/rotation_yaw">
+                <Annotation Term="Core.Description" String="Rotation (Pitch/Yaw/Roll) from -1 to 1"/>
+            </Annotations>
+            <Annotations Target="GT7Service.SimulatorInterfacePackets/rotation_roll">
+                <Annotation Term="Core.Description" String="Rotation (Pitch/Yaw/Roll) from -1 to 1"/>
+            </Annotations>
+            <Annotations Target="GT7Service.SimulatorInterfacePackets/relativeOrientationToNorth">
+                <Annotation Term="Core.Description" String="Orientation to North. 1.0 is north, 0.0 is south"/>
+            </Annotations>
+            <Annotations Target="GT7Service.SimulatorInterfacePackets/angularVelocity_x">
+                <Annotation Term="Core.Description" String="How fast the car turns around axes. (In radians/second, -1 to 1)"/>
+            </Annotations>
+            <Annotations Target="GT7Service.SimulatorInterfacePackets/angularVelocity_y">
+                <Annotation Term="Core.Description" String="How fast the car turns around axes. (In radians/second, -1 to 1)"/>
+            </Annotations>
+            <Annotations Target="GT7Service.SimulatorInterfacePackets/angularVelocity_z">
+                <Annotation Term="Core.Description" String="How fast the car turns around axes. (In radians/second, -1 to 1)"/>
+            </Annotations>
+            <Annotations Target="GT7Service.SimulatorInterfacePackets/bodyHeight">
+                <Annotation Term="Core.Description" String="Body height"/>
+            </Annotations>
+            <Annotations Target="GT7Service.SimulatorInterfacePackets/engineRPM">
+                <Annotation Term="Core.Description" String="Engine revolutions per minute"/>
+            </Annotations>
+            <Annotations Target="GT7Service.SimulatorInterfacePackets/gasLevel">
+                <Annotation Term="Core.Description" String="Gas level for the current car (in liters, from 0 to GasCapacity"/>
+            </Annotations>
+            <Annotations Target="GT7Service.SimulatorInterfacePackets/gasCapacity">
+                <Annotation Term="Core.Description" String="Max gas capacity for the current car"/>
+            </Annotations>
+            <Annotations Target="GT7Service.SimulatorInterfacePackets/metersPerSecond">
+                <Annotation Term="Core.Description" String="Current speed in meters per second. &lt;see cref=&quot;MetersPerSecond * 3.6&quot;/> to get it in KPH"/>
+            </Annotations>
+            <Annotations Target="GT7Service.SimulatorInterfacePackets/turboBoost">
+                <Annotation Term="Core.Description" String="Value below 1.0 is below 0 ingame, so 2.0 = 1 x 100kPa"/>
+            </Annotations>
+            <Annotations Target="GT7Service.SimulatorInterfacePackets/oilPressure">
+                <Annotation Term="Core.Description" String="Oil Pressure (in Bars)"/>
+            </Annotations>
+            <Annotations Target="GT7Service.SimulatorInterfacePackets/waterTemperature">
+                <Annotation Term="Core.Description" String="Games will always send 85 (in °C)"/>
+            </Annotations>
+            <Annotations Target="GT7Service.SimulatorInterfacePackets/oilTemperature">
+                <Annotation Term="Core.Description" String="Games will always send 110 (in °C)"/>
+            </Annotations>
+            <Annotations Target="GT7Service.SimulatorInterfacePackets/lapCount">
+                <Annotation Term="Core.Description" String="Current lap count"/>
+            </Annotations>
+            <Annotations Target="GT7Service.SimulatorInterfacePackets/lapsInRace">
+                <Annotation Term="Core.Description" String="Laps to finish"/>
+            </Annotations>
+            <Annotations Target="GT7Service.SimulatorInterfacePackets/bestLapTime">
+                <Annotation Term="Core.Description" String="Best Lap Time"/>
+            </Annotations>
+            <Annotations Target="GT7Service.SimulatorInterfacePackets/lastLapTime">
+                <Annotation Term="Core.Description" String="Last Lap Time"/>
+            </Annotations>
+            <Annotations Target="GT7Service.SimulatorInterfacePackets/timeOfDayProgression">
+                <Annotation Term="Core.Description" String="Current time of day on the track"/>
+            </Annotations>
+            <Annotations Target="GT7Service.SimulatorInterfacePackets/preRaceStartPositionOrQualiPos">
+                <Annotation Term="Core.Description" String="Position of the car before the race has started"/>
+            </Annotations>
+            <Annotations Target="GT7Service.SimulatorInterfacePackets/numCarsAtPreRace">
+                <Annotation Term="Core.Description" String="Number of cars in the race before the race has started"/>
+            </Annotations>
+            <Annotations Target="GT7Service.SimulatorInterfacePackets/minAlertRPM">
+                <Annotation Term="Core.Description" String="Minimum RPM to which the rev limiter shows an alert"/>
+            </Annotations>
+            <Annotations Target="GT7Service.SimulatorInterfacePackets/maxAlertRPM">
+                <Annotation Term="Core.Description" String="Maximum RPM to the rev limiter alert"/>
+            </Annotations>
+            <Annotations Target="GT7Service.SimulatorInterfacePackets/calculatedMaxSpeed">
+                <Annotation Term="Core.Description" String="Possible max speed achievable using the current transmission settings"/>
+            </Annotations>
+            <Annotations Target="GT7Service.SimulatorInterfacePackets/flags">
+                <Annotation Term="Core.Description" String="Packet flags (see Flags.ts)"/>
+            </Annotations>
+            <Annotations Target="GT7Service.SimulatorInterfacePackets/currentGear">
+                <Annotation Term="Core.Description" String="Current Gear for the car"/>
+            </Annotations>
+            <Annotations Target="GT7Service.SimulatorInterfacePackets/suggestedGear">
+                <Annotation Term="Core.Description" String="(Assist) Suggested Gear to downshift to"/>
+            </Annotations>
+            <Annotations Target="GT7Service.SimulatorInterfacePackets/throttle">
+                <Annotation Term="Core.Description" String="Throttle (0-255)"/>
+            </Annotations>
+            <Annotations Target="GT7Service.SimulatorInterfacePackets/brake">
+                <Annotation Term="Core.Description" String="Brake Pedal (0-255)"/>
+            </Annotations>
+            <Annotations Target="GT7Service.SimulatorInterfacePackets/roadPlane_x">
+                <Annotation Term="Core.Description" String=""/>
+            </Annotations>
+            <Annotations Target="GT7Service.SimulatorInterfacePackets/roadPlane_y">
+                <Annotation Term="Core.Description" String=""/>
+            </Annotations>
+            <Annotations Target="GT7Service.SimulatorInterfacePackets/roadPlane_z">
+                <Annotation Term="Core.Description" String=""/>
+            </Annotations>
+            <Annotations Target="GT7Service.SimulatorInterfacePackets/roadPlaneDistance">
+                <Annotation Term="Core.Description" String=""/>
+            </Annotations>
+            <Annotations Target="GT7Service.SimulatorInterfacePackets/tireRadius_fl">
+                <Annotation Term="Core.Description" String="Tire - Tire Radius (in Meters)"/>
+            </Annotations>
+            <Annotations Target="GT7Service.SimulatorInterfacePackets/tireRadius_fr">
+                <Annotation Term="Core.Description" String="Tire - Tire Radius (in Meters)"/>
+            </Annotations>
+            <Annotations Target="GT7Service.SimulatorInterfacePackets/tireRadius_rl">
+                <Annotation Term="Core.Description" String="Tire - Tire Radius (in Meters)"/>
+            </Annotations>
+            <Annotations Target="GT7Service.SimulatorInterfacePackets/tireRadius_rr">
+                <Annotation Term="Core.Description" String="Tire - Tire Radius (in Meters)"/>
+            </Annotations>
+            <Annotations Target="GT7Service.SimulatorInterfacePackets/tireSuspensionHeight_fl">
+                <Annotation Term="Core.Description" String="Tire - Suspension Height"/>
+            </Annotations>
+            <Annotations Target="GT7Service.SimulatorInterfacePackets/tireSuspensionHeight_fr">
+                <Annotation Term="Core.Description" String="Tire - Suspension Height"/>
+            </Annotations>
+            <Annotations Target="GT7Service.SimulatorInterfacePackets/tireSuspensionHeight_rl">
+                <Annotation Term="Core.Description" String="Tire - Suspension Height"/>
+            </Annotations>
+            <Annotations Target="GT7Service.SimulatorInterfacePackets/tireSuspensionHeight_rr">
+                <Annotation Term="Core.Description" String="Tire - Suspension Height"/>
+            </Annotations>
+            <Annotations Target="GT7Service.SimulatorInterfacePackets/tireSurfaceTemperature_fl">
+                <Annotation Term="Core.Description" String="Tire - Surface Temperature (in °C)"/>
+            </Annotations>
+            <Annotations Target="GT7Service.SimulatorInterfacePackets/tireSurfaceTemperature_fr">
+                <Annotation Term="Core.Description" String="Tire - Surface Temperature (in °C)"/>
+            </Annotations>
+            <Annotations Target="GT7Service.SimulatorInterfacePackets/tireSurfaceTemperature_rl">
+                <Annotation Term="Core.Description" String="Tire - Surface Temperature (in °C)"/>
+            </Annotations>
+            <Annotations Target="GT7Service.SimulatorInterfacePackets/tireSurfaceTemperature_rr">
+                <Annotation Term="Core.Description" String="Tire - Surface Temperature (in °C)"/>
+            </Annotations>
+            <Annotations Target="GT7Service.SimulatorInterfacePackets/wheelRevPerSecond_fl">
+                <Annotation Term="Core.Description" String="Wheel - Revolutions Per Second (in Radians)"/>
+            </Annotations>
+            <Annotations Target="GT7Service.SimulatorInterfacePackets/wheelRevPerSecond_fr">
+                <Annotation Term="Core.Description" String="Wheel - Revolutions Per Second (in Radians)"/>
+            </Annotations>
+            <Annotations Target="GT7Service.SimulatorInterfacePackets/wheelRevPerSecond_rl">
+                <Annotation Term="Core.Description" String="Wheel - Revolutions Per Second (in Radians)"/>
+            </Annotations>
+            <Annotations Target="GT7Service.SimulatorInterfacePackets/wheelRevPerSecond_rr">
+                <Annotation Term="Core.Description" String="Wheel - Revolutions Per Second (in Radians)"/>
+            </Annotations>
+            <Annotations Target="GT7Service.SimulatorInterfacePackets/clutchPedal">
+                <Annotation Term="Core.Description" String="0.0 to 1.0"/>
+            </Annotations>
+            <Annotations Target="GT7Service.SimulatorInterfacePackets/clutchEngagement">
+                <Annotation Term="Core.Description" String="0.0 to 1.0"/>
+            </Annotations>
+            <Annotations Target="GT7Service.SimulatorInterfacePackets/rpmFromClutchToGearbox">
+                <Annotation Term="Core.Description" String="Basically same as engine rpm when in gear and the clutch pedal is not depressed"/>
+            </Annotations>
+            <Annotations Target="GT7Service.SimulatorInterfacePackets/transmissionTopSpeed">
+                <Annotation Term="Core.Description" String="Top Speed (as a Gear Ratio value)"/>
+            </Annotations>
+        </Schema>
+    </edmx:DataServices>
+</edmx:Edmx>

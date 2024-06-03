@@ -1,0 +1,65 @@
+@host = http://localhost:4004
+@path = /odata/v4/gt7/
+
+### @name count Sips
+GET {{host}}{{path}}SimulatorInterfacePackets/$count
+
+### @name best lap time
+GET {{host}}{{path}}SimulatorInterfacePackets?$select=bestLapTime&$orderby=packetId desc&$top=1
+
+### @name best lap
+GET {{host}}{{path}}SimulatorInterfacePackets?$select=lapCount,lastLapTime&$filter=session_ID eq c5e957e8-aa64-407b-8167-49faa9ea4d49 and lastLapTime eq 85257&$orderby=packetId desc&$top=1
+
+### @name last lap times
+GET {{host}}{{path}}SimulatorInterfacePackets?$apply=groupby((lapCount,lastLapTime))
+
+### @name getLapTimes by Session
+GET {{host}}{{path}}Sessions(52983d4d-bea3-4d5a-9867-b35639167df1)/GT7Service.getLapTimes()
+
+### @name getLapSVG by Session
+GET {{host}}{{path}}Sessions(52983d4d-bea3-4d5a-9867-b35639167df1)/GT7Service.getLapSVG()
+
+### @name getSessionLaps
+GET {{host}}{{path}}Sessions(52983d4d-bea3-4d5a-9867-b35639167df1)/Laps
+
+### @name count distinct Flags
+GET {{host}}{{path}}SimulatorInterfacePackets?$apply=groupby((flags),aggregate($count as Items))
+
+### @name full sip (65980 - 62980) = 3000 (real 2982) * 1. / 60. = 50000 | 49708 -> currentLapTime: 50017
+GET {{host}}{{path}}SimulatorInterfacePackets?$top=1
+
+### @name lap 1
+GET {{host}}{{path}}SimulatorInterfacePackets?$filter=lapCount eq 1&$select=packetId,flags,lapCount,currentLapTime,currentLapTime2,bestLapTime,lastLapTime,metersPerSecond&$orderby=packetId
+
+### @name lap 1 flags != ...
+GET {{host}}{{path}}SimulatorInterfacePackets?$filter=lapCount eq 1 and flags ne 2057 and flags ne 9 and flags ne 1&$select=packetId,flags,lapCount,currentLapTime,bestLapTime,lastLapTime&$orderby=packetId
+
+### @name lap 1 skip 1000
+GET {{host}}{{path}}SimulatorInterfacePackets?$filter=lapCount eq 1&$skiptoken=1000&$select=packetId,flags,lapCount,currentLapTime,currentLapTime2,bestLapTime,lastLapTime,metersPerSecond&$orderby=packetId
+
+### @name lap 1 skip 2000
+GET {{host}}{{path}}SimulatorInterfacePackets?$filter=lapCount eq 1&$skiptoken=2000&$select=packetId,flags,lapCount,currentLapTime,currentLapTime2,bestLapTime,lastLapTime&$orderby=packetId
+
+### @name lap 1 skip 3000
+GET {{host}}{{path}}SimulatorInterfacePackets?$filter=lapCount eq 1&$skiptoken=3000&$select=packetId,flags,lapCount,currentLapTime,currentLapTime2.bestLapTime,lastLapTime&$orderby=packetId
+
+### @name lap 2
+GET {{host}}{{path}}SimulatorInterfacePackets?$filter=lapCount eq 2&$select=packetId,flags,lapCount,currentLapTime,currentLapTime2,bestLapTime,lastLapTime&$orderby=packetId
+
+### @name lap 3
+GET {{host}}{{path}}SimulatorInterfacePackets?$filter=lapCount eq 3&$select=packetId,flags,lapCount,currentLapTime,bestLapTime,lastLapTime&$orderby=packetId
+
+### @name lap 4
+GET {{host}}{{path}}SimulatorInterfacePackets?$filter=lapCount eq 4&$select=packetId,flags,lapCount,currentLapTime,bestLapTime,lastLapTime&$orderby=packetId
+
+### @name lap 5
+GET {{host}}{{path}}SimulatorInterfacePackets?$filter=lapCount eq 5&$select=packetId,flags,lapCount,lapsInRace,currentLapTime,currentLapTime2,bestLapTime,lastLapTime&$orderby=packetId
+
+### @name lastLap + 1 (5)
+GET {{host}}{{path}}SimulatorInterfacePackets?$filter=lapCount eq 5&$orderby=packetId
+
+### @name SessionMetrics Lap 1
+GET {{host}}{{path}}SessionMetrics?$filter=lapCount eq 1&$orderby=currentLapTime
+
+### @name SessionMetrics Lap 2
+GET {{host}}{{path}}SessionMetrics?$filter=lapCount eq 2&$orderby=currentLapTime

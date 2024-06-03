@@ -1,0 +1,107 @@
+{
+  "name": "racecap",
+  "version": "1.0.0",
+  "description": "Race with CAP (as shown at reCAP 2024 session)",
+  "repository": "<Add your repository here>",
+  "license": "UNLICENSED",
+  "private": true,
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "@cap-js/sqlite": "^1",
+    "@cap-js/telemetry": "^0.2.0",
+    "@grpc/grpc-js": "^1.10.4",
+    "@opentelemetry/exporter-metrics-otlp-grpc": "^0.51.1",
+    "@opentelemetry/exporter-trace-otlp-grpc": "^0.51.1",
+    "@sap/cds": "^7",
+    "@sap/xssec": "^3.6.1",
+    "binary-parser": "^2.2.1",
+    "express": "^4",
+    "ws": "^8.17.0"
+  },
+  "devDependencies": {
+    "@cap-js/cds-typer": ">=0.1",
+    "@types/node": "*",
+    "@types/ws": "^8.5.10",
+    "cds-launchpad-plugin": "^2.1.8",
+    "cds-plugin-ui5": "^0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.4.5"
+  },
+  "scripts": {
+    "watch": "npx cds-ts watch --open launchpad.html?sap-ui-xx-viewCache=false --livereload false",
+    "watch:sqlite": "npx cds-ts watch --profile sqlite --open launchpad.html?sap-ui-xx-viewCache=false --livereload false",
+    "start": "cds-ts serve",
+    "watch-raceanalysis": "cds-ts watch --open raceanalysis/index.html?sap-ui-xx-viewCache=false --livereload false",
+    "db:create": "cds deploy srv --to sqlite",
+    "db:upgrade": "cds deploy --profile sqlite",
+    "db:deploy:model": "cds deploy --model-only --profile sqlite",
+    "db:schema:org": "cds deploy --dry --model-only > cds-model.csn",
+    "db:schema:delta": "cds deploy --dry --delta-from cds-model.csn > delta.sql",
+    "watch-gt7info": "cds watch --open gt7info/index.html?sap-ui-xx-viewCache=false --livereload false",
+    "postinstall": "npx @cap-js/cds-typer srv --outputDirectory @cds-models"
+  },
+  "imports": {
+    "#cds-models/*": "./@cds-models/*/index.js"
+  },
+  "cds": {
+    "requires": {
+      "[sqlite]": {
+        "db": {
+          "kind": "sqlite",
+          "credentials": {
+            "database": "db.sqlite"
+          },
+          "schema_evolution": "auto"
+        }
+      },
+      "telemetry": {
+        "[sqlite]": {
+          "kind": "to-cloud-logging"
+        },
+        "tracing": null,
+        "metrics": {
+          "exporter": {
+            "module": "./srv/lib/MyMetricExporter",
+            "class": "MyConsoleMetricExporter",
+            "[sqlite]": {
+              "class": "MyOTLPMetricExporter"
+            }
+          },
+          "config": {
+            "__comment__1": "60 frames per second (1000 / 60 = 16.67)",
+            "__comment__2": "CL seems to allow 6000 metrics per minute -> exportIntervalMillis >= metrics * 10",
+            "exportIntervalMillis": 30
+          },
+          "_db_pool": false
+        }
+      }
+    },
+    "log": {
+      "levels": {
+        "telemetry": "error"
+      }
+    },
+    "launchpad": {
+      "theme": "sap_horizon_dark",
+      "version": "1.124.0",
+      "template": "async",
+      "appConfigPath": "./app/appConfig/fioriSandboxConfig.json"
+    },
+    "services": {
+      "sqlite": true,
+      "otlp": false,
+      "simulation": true,
+      "simulationSession": "52983d4d-bea3-4d5a-9867-b35639167df1"
+    }
+  },
+  "workspaces": [
+    "app/*"
+  ],
+  "sapux": [
+    "app/raceanalysis",
+    "app/racedash",
+    "app/gt7info"
+  ]
+}

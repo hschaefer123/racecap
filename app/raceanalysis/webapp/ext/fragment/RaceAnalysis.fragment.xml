@@ -1,0 +1,41 @@
+<core:FragmentDefinition
+    xmlns:core="sap.ui.core"
+    xmlns="sap.m"
+    xmlns:l="sap.ui.layout"
+    xmlns:f="sap.ui.layout.form"
+    xmlns:macros="sap.fe.macros"
+>
+    <VBox core:require="{ handler: 'raceanalysis/ext/fragment/RaceAnalysis'}">
+        <macros:FilterBar
+            id="FilterBar"
+            metaPath="Measures/@com.sap.vocabularies.UI.v1.SelectionFields"
+            liveMode="true"
+            showClearButton="true"
+            search="handler.onSearch"
+        />
+        <macros:Chart
+            id="ChartSpeed"
+            filterBar="FilterBar"
+            contextPath="/Sessions/Speed"
+            metaPath="@com.sap.vocabularies.UI.v1.Chart#chartSection"
+            personalization="Type,Item,Sort,Filter"
+            selectionMode="Multiple"
+        />
+        <macros:Chart
+            id="ChartThrottle"
+            filterBar="FilterBar"
+            contextPath="/Sessions/Throttle"
+            metaPath="@com.sap.vocabularies.UI.v1.Chart#chartSection1"
+            personalization="Type,Item,Sort,Filter"
+            selectionMode="Multiple"
+        />
+        <macros:Chart
+            id="ChartBrake"
+            filterBar="FilterBar"
+            contextPath="/Sessions/Brake"
+            metaPath="@com.sap.vocabularies.UI.v1.Chart#chartSection2"
+            personalization="Type,Item,Sort,Filter"
+            selectionMode="Multiple"
+        />
+    </VBox>
+</core:FragmentDefinition>

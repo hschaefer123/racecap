@@ -1,0 +1,22 @@
+{
+  "requires": {
+    "telemetry": {
+      "[sqlite]": {
+        "credentials": {
+          "client-ca": "",
+          "dashboards-endpoint": "",
+          "ingest-endpoint": "",
+          "ingest-mtls-cert": "",
+          "ingest-mtls-endpoint": "",
+          "ingest-mtls-key": "",
+          "ingest-otlp-cert": "",
+          "ingest-otlp-endpoint": "",
+          "ingest-otlp-key": "",
+          "ingest-password": "",
+          "ingest-username": "",
+          "server-ca": ""
+        }
+      }
+    }
+  }
+}
