@@ -86,8 +86,7 @@
     "launchpad": {
       "theme": "sap_horizon_dark",
       "version": "1.124.0",
-      "template": "async",
-      "appConfigPath": "./app/appConfig/fioriSandboxConfig.json"
+      "template": "async"
     },
     "services": {
       "sqlite": true,
