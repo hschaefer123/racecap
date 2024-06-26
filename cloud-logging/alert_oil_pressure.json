@@ -1,0 +1,141 @@
+{
+    "name": "Oil Pressure",
+    "type": "monitor",
+    "monitor_type": "bucket_level_monitor",
+    "enabled": true,
+    "schedule": {
+       "period": {
+          "unit": "MINUTES",
+          "interval": 1
+       }
+    },
+    "inputs": [
+       {
+          "search": {
+             "indices": [
+                "metrics-otel-v1-*"
+             ],
+             "query": {
+                "size": 0,
+                "query": {
+                   "bool": {
+                      "filter": [
+                         {
+                            "match_phrase": {
+                               "name": {
+                                  "query": "oilPressure",
+                                  "slop": 0,
+                                  "zero_terms_query": "NONE",
+                                  "boost": 1
+                               }
+                            }
+                         },
+                         {
+                            "range": {
+                               "time": {
+                                  "from": "{{period_start}}",
+                                  "to": "{{period_end}}",
+                                  "include_lower": true,
+                                  "include_upper": true,
+                                  "boost": 1
+                               }
+                            }
+                         }
+                      ],
+                      "adjust_pure_negative": true,
+                      "boost": 1
+                   }
+                },
+                "aggregations": {
+                   "pressure": {
+                      "terms": {
+                         "field": "metric.attributes.session_ID",
+                         "size": 100,
+                         "min_doc_count": 1,
+                         "shard_min_doc_count": 0,
+                         "show_term_doc_count_error": false,
+                         "order": [
+                            {
+                               "maximum": "desc"
+                            },
+                            {
+                               "_key": "asc"
+                            }
+                         ]
+                      },
+                      "aggregations": {
+                         "maximum": {
+                            "max": {
+                               "field": "value"
+                            }
+                         }
+                      }
+                   }
+                }
+             }
+          }
+       }
+    ],
+    "triggers": [
+       {
+          "bucket_level_trigger": {
+             "id": "T_tU3o8B0Qpr2z_HgFfC",
+             "name": "HIgh Pressure",
+             "severity": "1",
+             "condition": {
+                "buckets_path": {
+                   "max_pressure": "maximum.value"
+                },
+                "parent_bucket_path": "pressure",
+                "script": {
+                   "source": "params.max_pressure > 7.05",
+                   "lang": "painless"
+                },
+                "gap_policy": "skip"
+             },
+             "actions": []
+          }
+       }
+    ],
+    "ui_metadata": {
+       "schedule": {
+          "timezone": null,
+          "frequency": "interval",
+          "period": {
+             "unit": "MINUTES",
+             "interval": 1
+          },
+          "daily": 0,
+          "weekly": {
+             "tue": false,
+             "wed": false,
+             "thur": false,
+             "sat": false,
+             "fri": false,
+             "mon": false,
+             "sun": false
+          },
+          "monthly": {
+             "type": "day",
+             "day": 1
+          },
+          "cronExpression": "0 */1 * * *"
+       },
+       "search": {
+          "searchType": "query",
+          "timeField": "",
+          "aggregations": [],
+          "groupBy": [],
+          "bucketValue": 1,
+          "bucketUnitOfTime": "h",
+          "where": {
+             "fieldName": [],
+             "fieldRangeEnd": 0,
+             "fieldRangeStart": 0,
+             "fieldValue": "",
+             "operator": "is"
+          }
+       },
+       "monitor_type": "bucket_level_monitor"
+    }
+}
