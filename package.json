@@ -85,7 +85,7 @@
     },
     "launchpad": {
       "theme": "sap_horizon_dark",
-      "version": "1.124.0",
+      "version": "1.125.1",
       "template": "async"
     },
     "services": {

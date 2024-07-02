@@ -234,7 +234,7 @@ annotate service.SessionMetrics with @(
             Parameters    : [
                 {
                     $Type : 'Common.ValueListParameterIn',
-                    LocalDataProperty : session_ID,
+                    LocalDataProperty : session.ID,
                     ValueListProperty : 'session_ID',
                 },
                 {
