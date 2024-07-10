@@ -5,13 +5,12 @@
     xmlns:f="sap.ui.layout.form"
     xmlns:macros="sap.fe.macros"
 >
-    <VBox core:require="{ handler: 'raceanalysis/ext/fragment/RaceAnalysis'}">
+    <VBox>
         <macros:FilterBar
             id="FilterBar"
             metaPath="Measures/@com.sap.vocabularies.UI.v1.SelectionFields"
             liveMode="true"
             showClearButton="true"
-            search="handler.onSearch"
         />
         <macros:Chart
             id="ChartSpeed"
